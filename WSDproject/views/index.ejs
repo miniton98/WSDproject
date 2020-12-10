@@ -1,0 +1,79 @@
+<%- include("./partials/header.ejs") %>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Health oMeter</a>
+      </div>
+      <% if (auth) { %>
+      <ul class="nav navbar-nav">
+        <li>Logged in as: <%= email %></li>
+      </ul>
+      <% } %>
+      <ul class="nav navbar-nav navbar-right">
+          <% if (!auth) { %>
+            <li><a href="/auth/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="/auth/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <% } else { %>
+            <li><a href="/auth/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+          <% } %>
+       
+      </ul>
+    </div>
+  </nav>
+
+    <h1>Welcome to Health oMeter</h1>
+    <p>The Health oMeter is an application designed for reporting and following up on your daily activity and health. 
+        It comes with the possibility of reporting your personal data, such as your sleep quality and exercise duration on a dayli basis.
+        Furthermore, it allows you to follow up on your data in weekly and monthly intervals.</p>
+    <% if (!auth) { %>
+        <p>To get started you need to sign in or register by clicking the buttons bellow!</p>
+        <a class="btn btn-primary" href="/auth/login" role="button">Login</a>
+        <a class="btn btn-secondary" href="/auth/register" role="button">Register</a>
+        <p></p>
+    
+        <div class="row">
+            <div class="col-10">
+                <strong>Example Mood Trend!</strong>
+            </div>
+            <div class="col-5">
+                Your Mood Today!
+                <h1>4,5</h1>
+            </div>
+            <div class="col-5">
+                Your Mood Yesterday!
+                <h1>4</h1>
+            </div>
+            <div class="col-10">
+                <strong>Things are looking bright today!</strong>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="row">
+            <div class="col-10">
+                <strong>Your Mood Trend!</strong>
+            </div>
+            <div class="col-5">
+                Your Mood Today!
+                <h1><%=avgToday%></h1>
+            </div>
+            <div class="col-5">
+                Your Mood Yesterday!
+                <h1><%=avgYesterday%></h1>
+            </div>
+            <div class="col-10">
+                <% if (Number(avgToday) >= Number(avgYesterday)) { %>
+                    <strong>Things are looking bright today!</strong>
+                <% } else { %>
+                    <strong>Things are looking gloomy today!</strong>
+                <% } %>
+            </div>
+        </div>
+    <% } %>
+    <p>You can start reporting by clicking the button. However, you need to be signed in.</p>
+    <a class="btn btn-primary" href="/behavior/reporting" role="button">Start reporting</a>
+    <p></pZ>
+    <p>Go to summary page.</p>
+    <a class="btn btn-primary" href="/behavior/summary" role="button">View summary</a>
+
+   
+<%- include("./partials/footer.ejs") %>

@@ -1,0 +1,107 @@
+<%- include("./partials/header.ejs") %>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Health oMeter</a>
+      </div>
+      <% if (auth) { %>
+      <ul class="nav navbar-nav">
+        <li>Logged in as: <%= email %></li>
+      </ul>
+      <% } %>
+      <ul class="nav navbar-nav navbar-right">
+          <% if (!auth) { %>
+            <li><a href="/auth/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="/auth/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <% } else { %>
+            <li><a href="/auth/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+          <% } %>
+       
+      </ul>
+    </div>
+  </nav>
+
+    <h4>Here you can see a summary of your reported data, by a weekly and monthly basis!</h4>
+  <div class="row">
+    <div class="col-4">
+        <form method="POST" action="/behavior/summary">
+            <div class="form-group">
+                <label for="week">Week: </label>
+                <input type="week" class="form-control" id="week" name="week" value="<%= week %>">
+            </div>
+            <div class="form-group">
+                <label for="month">Month: </label>
+                <input type="month" class="form-control" id="month" name="month" value="<%= month %>">
+            </div>
+            <p>View summary for selected Week and Month!</p>
+            <button type="submit" class="btn btn-primary">View summary</button>
+        </form>
+    </div>
+    <div class="col-12">
+        <h3>Weekly summary!</h3>
+    </div>
+    <% if(avgWeeklyMood != null && avgWeeklyExerciseDur != null && avgWeeklySleepDur != null && avgWeeklySleepQuality != null && avgWeeklyStudyTime != null) { %>
+        <div class="col-4">
+            Average sleep duration (h)
+            <h1><%= avgWeeklySleepDur %></h1>
+        </div>
+        <div class="col-4">
+            Average sleep quality (scale: 1-5)
+            <h1><%= avgWeeklySleepQuality %></h1>
+        </div>
+        <div class="col-4">
+            Average exercise duration (h)
+            <h1><%= avgWeeklyExerciseDur %></h1>
+        </div>
+        <div class="col-4">
+            Average study time (h)
+            <h1><%= avgWeeklyStudyTime %></h1>
+        </div>
+        <div class="col-4">
+            Average mood (scale: 1-5)
+            <h1><%= avgWeeklyMood %></h1>
+        </div>
+    <% } else { %>
+        <div class="col-12">
+            No data for the given week exists.
+        </div>
+    <% } %>
+    
+    <div class="col-12">
+        <p></p>
+    </div>
+    <div class="col-12">
+        <h3>Monthly summary!</h3>
+    </div>
+    <% if(avgMonthlyMood != null && avgMonthlyExerciseDur != null && avgMonthlySleepDur != null && avgMonthlySleepQuality != null && avgMonthlyStudyTime != null) { %>
+        <div class="col-4">
+            Average sleep duration (h)
+            <h1><%= avgMonthlySleepDur %></h1>
+        </div>
+        <div class="col-4">
+            Average sleep quality (scale: 1-5)
+            <h1><%= avgMonthlySleepQuality %></h1>
+        </div>
+        <div class="col-4">
+            Average exercise duration (h)
+            <h1><%= avgMonthlyExerciseDur %></h1>
+        </div>
+        <div class="col-4">
+            Average study time (h)
+            <h1><%= avgMonthlyStudyTime %></h1>
+        </div>
+        <div class="col-4">
+            Average mood (scale: 1-5)
+            <h1><%= avgMonthlyMood %></h1>
+        </div>
+    <% } else { %>
+        <div class="col-12">
+            No data for the given month exists.
+        </div>
+    <% } %>
+  </div>
+  <p></p>
+  <p>Back to reporting, Here!</p>
+  <a class="btn btn-primary" href="/behavior/reporting" role="button">Start reporting</a>
+  <a class="btn btn-link" href="/" role="button">Go to front page</a>
+  <%- include("./partials/footer.ejs") %>

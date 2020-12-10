@@ -1,0 +1,103 @@
+<%- include("./partials/header.ejs") %>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Health oMeter</a>
+      </div>
+      <% if (auth) { %>
+      <ul class="nav navbar-nav">
+        <li>Logged in as: <%= email %></li>
+      </ul>
+      <% } %>
+      <ul class="nav navbar-nav navbar-right">
+          <% if (!auth) { %>
+            <li><a href="/auth/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="/auth/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <% } else { %>
+            <li><a href="/auth/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+          <% } %>
+       
+      </ul>
+    </div>
+  </nav>
+    <h1>Reporting page</h1>
+    <div class="row">
+        <div class="col-10">
+            Choose wether you would like to report Morning or Evening
+        </div>
+        <div class="col-6">
+            <h3>Morning</h3>
+            <% if(morning_filled) { %> 
+                <strong>You have already reported morning data for today!</strong>
+            <% } %>
+            <form method="POST" action="/behavior/reporting/morning">
+                <div class="form-group">
+                    <label for="date">Date: </label>
+                    <input type="date" class="form-control" id="date" name="date" value="<%= date %>">
+                </div>
+                <div class="form-group">
+                    <label for="sleep_duration">Sleep duration: </label>
+                    <%- include('./partials/error.ejs', { errors: errors, attribute: 'sleep_duration'}) %>
+                    <input type="numeric" class="form-control" id="sleep_duration" name="sleep_duration" value="<%= sleep_duration %>" placeholder="Ex. 8.5">
+                    <small id="sleepqlHelp" class="form-text text-muted">Insert your sleep duration in hours (h) using decimals.</small>
+                </div>
+                <div class="form-group">
+                    <label for="sleep_quality">Sleep quality: </label>
+                    <%- include('./partials/error.ejs', { errors: errors, attribute: 'sleep_quality'}) %>
+                    <input type="range" class="form-control-range" id="sleep_quality" value="<%= sleep_quality %>" min="1" max="5" step="1" name="sleep_quality"></input>
+                    <small id="sleepqlHelp" class="form-text text-muted">Select a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.</small>   
+                </div>
+                <div class="form-group">
+                    <label for="mood">Generic mood: </label>
+                    <%- include('./partials/error.ejs', { errors: errors, attribute: 'mood'}) %>
+                    <input type="range" class="form-control-range" id="mood" value="<%= mood %>" min="1" max="5" step="1" name="mood"></input>
+                    <small id="sleepqlHelp" class="form-text text-muted">Select a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <h3>Evening</h3>
+            <% if(evening_filled) { %> 
+                <strong>You have already reported evening data for today!</strong>
+            <% } %>
+            <form method="POST" action="/behavior/reporting/evening">
+                <div class="form-group">
+                    <label for="date">Date: </label>
+                    <input type="date" class="form-control" id="date" name="date" value="<%= date %>">
+                </div>
+                <div class="form-group">
+                    <label for="exercise_time">Time spent on exercise: </label>
+                    <%- include('./partials/error.ejs', { errors: errors, attribute: 'exercise_time'}) %>
+                    <input type="numeric" class="form-control" id="exercise_time" name="exercise_time" value = "<%= exercise_time %>" placeholder="Ex. 8.5">
+                    <small class="form-text text-muted">Insert your exercise duration in hours (h) using decimals.</small>
+                </div>
+                <div class="form-group">
+                    <label for="study_time">Time spent on studying: </label>
+                    <%- include('./partials/error.ejs', { errors: errors, attribute: 'study_time'}) %>
+                    <input type="numeric" class="form-control" id="study_time" name="study_time" value="<%= study_time %>" placeholder="Ex. 8.5">
+                    <small class="form-text text-muted">Insert your study duration in hours (h) using decimals.</small>
+                </div>
+                <div class="form-group">
+                    <label for="eating_regularity">Eating regularity: </label>
+                    <input type="range" class="form-control-range" id="eating_regularity" min="1" max="5" step="1" name="eating_regularity" value="<%= eating_regularity %>"></input>
+                      <small class="form-text text-muted">Select a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.</small>   
+                </div>
+                <div class="form-group">
+                    <label for="food_quality">Food quality: </label>
+                    <input type="range" class="form-control-range" id="food_quality" min="1" max="5" step="1" name="food_quality" value=" <%= food_quality %>"></input>
+                    <small class="form-text text-muted">Select a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.</small>   
+                </div>
+                <div class="form-group">
+                    <label for="mood">Generic mood: </label>
+                    <input type="range" class="form-control-range" id="mood" min="1" max="5" step="1" name="mood" value="<%= mood %>"></input>
+                    <small class="form-text text-muted">Select a number from 1 to 5, where 1 corresponds to very poor and 5 corresponds to excellent.</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    <p>Go to summary page.</p>
+    <a class="btn btn-primary" href="/behavior/summary" role="button">View summary</a>
+    <a class="btn btn-link" href="/" role="button">Go to front page</a>
+<%- include("./partials/footer.ejs") %>
